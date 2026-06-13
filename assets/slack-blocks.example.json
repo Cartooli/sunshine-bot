@@ -1,0 +1,30 @@
+{
+  "_comment": "Example payload sunshine-bot POSTs to a Slack Incoming Webhook. Generated from real commits; hashes/PRs become <links> when an origin remote is set.",
+  "blocks": [
+    {
+      "type": "header",
+      "text": { "type": "plain_text", "text": "☀️ Sunshine — 2026-06-13", "emoji": true }
+    },
+    {
+      "type": "context",
+      "elements": [{ "type": "mrkdwn", "text": "Tough sprint, real progress. A few things worth pausing on:" }]
+    },
+    {
+      "type": "section",
+      "text": { "type": "mrkdwn", "text": "🪶 Marco chose subtraction in <https://github.com/dwellchecker/sunshine-bot/commit/e8ef649|e8ef649>: \"remove dead code in legacy module\". Deleting code is underrated craft." }
+    },
+    {
+      "type": "section",
+      "text": { "type": "mrkdwn", "text": "🔌 Nina designed a cleaner contract in <https://github.com/dwellchecker/sunshine-bot/pull/41|#41>: \"redesign the users endpoint schema\". Good API design is invisible until you need it." }
+    },
+    {
+      "type": "section",
+      "text": { "type": "mrkdwn", "text": "🛡️ Marco kept users safe in <https://github.com/dwellchecker/sunshine-bot/commit/dd72159|dd72159>: \"validate and sanitize all user input\". The bugs you prevent never make the changelog, but they matter most." }
+    },
+    {
+      "type": "context",
+      "elements": [{ "type": "mrkdwn", "text": "3 moment(s) of sunshine — keep going 💛" }]
+    }
+  ],
+  "text": "Sunshine — 2026-06-13"
+}

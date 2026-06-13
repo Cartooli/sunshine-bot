@@ -1,0 +1,43 @@
+{
+  "name": "sunshine-bot",
+  "version": "0.1.0",
+  "description": "A configurable positivity engine that scans your codebase and shares specific, earned praise to keep the team motivated.",
+  "type": "module",
+  "bin": {
+    "sunshine": "bin/sunshine.js"
+  },
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "sunshine.config.example.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "sunshine": "node bin/sunshine.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "team",
+    "morale",
+    "motivation",
+    "positivity",
+    "git",
+    "praise",
+    "developer-experience",
+    "slack",
+    "github-action"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dwellchecker/sunshine-bot.git"
+  },
+  "dependencies": {}
+}
