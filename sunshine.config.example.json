@@ -1,0 +1,32 @@
+{
+  "cadence": "weekly",
+  "tone": "warm",
+  "categories": {
+    "marketing-copy": true,
+    "api-design": 1.5,
+    "ux": true,
+    "visual-design": true,
+    "simplicity": 2,
+    "progressive-disclosure": true,
+    "safety": 1.5,
+    "performance": true,
+    "docs": true,
+    "test-coverage": true,
+    "accessibility": 1.5
+  },
+  "channels": {
+    "stdout": { "enabled": true },
+    "markdown": { "enabled": true, "path": "SUNSHINE.md" },
+    "slack": { "enabled": false, "webhookEnv": "SLACK_WEBHOOK_URL" },
+    "github": { "enabled": false, "tokenEnv": "GITHUB_TOKEN" }
+  },
+  "minConfidence": 1,
+  "team": {
+    "Nina Patel": "@nina",
+    "nina@example.com": "@nina",
+    "Rob": "@rob"
+  },
+  "optOut": ["dependabot[bot]", "github-actions[bot]"],
+  "intro": "Tough sprint, real progress. A few things worth pausing on:",
+  "quietFallback": "Quiet stretch in the commit log — sometimes the most valuable work is the rest you took."
+}

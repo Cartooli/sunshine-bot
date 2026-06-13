@@ -1,0 +1,44 @@
+# Sunshine Bot — scheduled team positivity.
+# Drop this file into any repo (.github/workflows/sunshine.yml) to run on a cadence.
+# By default it updates SUNSHINE.md and commits it. Slack posting is opt-in via a secret.
+
+name: Sunshine
+
+on:
+  schedule:
+    # Mondays at 09:00 UTC. Change to taste (cron is UTC).
+    - cron: "0 9 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write # needed to commit SUNSHINE.md back to the repo
+
+jobs:
+  sunshine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history so Sunshine can read the week's commits
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate sunshine
+        env:
+          # Optional: set this repo secret to also post to Slack. Leave unset to skip.
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: npx --yes sunshine-bot@latest run --cadence weekly
+
+      - name: Commit the log
+        run: |
+          if [ -n "$(git status --porcelain SUNSHINE.md)" ]; then
+            git config user.name "sunshine-bot"
+            git config user.email "sunshine-bot@users.noreply.github.com"
+            git add SUNSHINE.md
+            git commit -m "☀️ weekly sunshine"
+            git push
+          else
+            echo "No changes to SUNSHINE.md."
+          fi
