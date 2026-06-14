@@ -64,6 +64,15 @@ Each has keyword and file-path signals. Enable, disable, or weight any of them i
 
 Everything is optional — `sunshine-bot` works with zero config. To customize, run `sunshine init` and edit `sunshine.config.json`:
 
+### Interactive setup
+
+Run `sunshine init` in a terminal and it walks you through a short interview —
+cadence, tone, output channels, an optional intro line, and mapping your repo's
+git authors to display handles (auto-detected from history). It writes a tailored
+`sunshine.config.json` for you. In CI, or with `--yes`, it stays non-interactive
+and writes sensible defaults so it never hangs a pipeline. Secrets are never
+asked for or stored — Slack and GitHub read environment variables at runtime.
+
 | Field | Default | What it does |
 |---|---|---|
 | `cadence` | `"weekly"` | `daily` \| `weekly` \| `monthly` — sets the default lookback window. |
