@@ -97,6 +97,24 @@ export function collectCommits({ cwd = process.cwd(), since, max = 500 } = {}) {
   return commits;
 }
 
+// Top commit authors by count, for the init wizard's handle mapping.
+// Returns [{ name, email, count }], most prolific first.
+export function topAuthors(cwd = process.cwd(), limit = 8) {
+  let out;
+  try {
+    out = git(['shortlog', '-sne', '--all', '--no-merges', 'HEAD'], cwd);
+  } catch {
+    return [];
+  }
+  const authors = [];
+  for (const line of out.split('\n')) {
+    const m = line.match(/^\s*(\d+)\s+(.+?)\s+<([^>]*)>\s*$/);
+    if (!m) continue;
+    authors.push({ count: Number(m[1]), name: m[2], email: m[3] });
+  }
+  return authors.sort((a, b) => b.count - a.count).slice(0, limit);
+}
+
 // Best-effort "owner/repo" slug, for building artifact links in output.
 export function repoSlug(cwd = process.cwd()) {
   let url;

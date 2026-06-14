@@ -72,14 +72,14 @@ async function main() {
   }
 
   if (cmd === 'init') {
-    const dest = resolve(process.cwd(), 'sunshine.config.json');
-    if (existsSync(dest)) {
+    const { runInit } = await import('../src/init.js');
+    const interactive = !flags.yes && !flags.y && process.stdin.isTTY;
+    const r = await runInit({ cwd: process.cwd(), interactive });
+    if (!r.created && r.reason === 'exists') {
       log('sunshine.config.json already exists — leaving it untouched.');
-      return;
+    } else {
+      log(`Created ${r.path}. Run: sunshine preview`);
     }
-    const example = join(__dirname, '..', 'sunshine.config.example.json');
-    copyFileSync(example, dest);
-    log('Created sunshine.config.json. Edit it to taste, then run: sunshine preview');
     return;
   }
 
