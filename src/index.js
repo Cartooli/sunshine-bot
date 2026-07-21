@@ -45,7 +45,19 @@ export async function run(opts = {}) {
   if (!exists) log('No sunshine.config.json found — using defaults.');
 
   const cadence = opts.cadence || config.cadence;
-  const since = opts.since || sinceFromDays(CADENCES[cadence], now);
+  if (!CADENCES[cadence]) {
+    throw new Error(`Unknown cadence "${cadence}" — must be one of ${Object.keys(CADENCES).join(', ')}.`);
+  }
+  let since;
+  if (opts.since !== undefined) {
+    const d = new Date(opts.since);
+    if (Number.isNaN(d.getTime())) {
+      throw new Error(`Invalid --since date: "${opts.since}". Use an ISO date like 2026-06-01.`);
+    }
+    since = d.toISOString();
+  } else {
+    since = sinceFromDays(CADENCES[cadence], now);
+  }
   const slug = repoSlug(cwd);
 
   const commits = collectCommits({ cwd, since });

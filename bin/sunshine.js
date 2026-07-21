@@ -92,7 +92,7 @@ async function main() {
       const { digest, config } = await run({
         cwd: process.cwd(),
         dryRun: isPreview || !!flags['dry-run'],
-        since: typeof flags.since === 'string' ? new Date(flags.since).toISOString() : undefined,
+        since: typeof flags.since === 'string' ? flags.since : undefined,
         cadence: typeof flags.cadence === 'string' ? flags.cadence : undefined,
         only: isPreview ? [] : only,
         log,
