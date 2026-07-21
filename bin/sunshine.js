@@ -86,13 +86,28 @@ async function main() {
   if (cmd === 'run' || cmd === 'preview') {
     const isPreview = cmd === 'preview';
     const only = flags.only ? String(flags.only).split(',').map((s) => s.trim()) : undefined;
+
+    let since;
+    if (typeof flags.since === 'string') {
+      const parsed = new Date(flags.since);
+      if (Number.isNaN(parsed.getTime())) {
+        log(`✗ Invalid --since date: "${flags.since}". Use an ISO date like 2026-06-01.`);
+        process.exit(1);
+      }
+      since = parsed.toISOString();
+    }
+
+    // --no-color applies to any terminal output, including the stdout channel run()
+    // fires. The stdout channel honors NO_COLOR, so surface the flag through it.
+    if (flags['no-color']) process.env.NO_COLOR = '1';
+
     try {
       // Preview fires no channels (only: []) and prints the terminal view itself,
       // so it works even if stdout is disabled in config and never writes/posts.
       const { digest, config } = await run({
         cwd: process.cwd(),
         dryRun: isPreview || !!flags['dry-run'],
-        since: typeof flags.since === 'string' ? new Date(flags.since).toISOString() : undefined,
+        since,
         cadence: typeof flags.cadence === 'string' ? flags.cadence : undefined,
         only: isPreview ? [] : only,
         log,

@@ -75,6 +75,8 @@ export function generateDigest(commits, config, { now = new Date() } = {}) {
     for (const commit of eligible) {
       const raw = scoreCommit(commit, cat);
       const score = raw * weight;
+      // Gate on raw evidence, then rank by weighted score — weight orders what
+      // qualifies but can't push a weak match past the confidence bar.
       if (raw >= config.minConfidence && score > 0) {
         candidates.push({ cat, commit, score, raw });
       }

@@ -45,6 +45,9 @@ export async function run(opts = {}) {
   if (!exists) log('No sunshine.config.json found — using defaults.');
 
   const cadence = opts.cadence || config.cadence;
+  if (!CADENCES[cadence]) {
+    throw new Error(`Unknown cadence "${cadence}" — must be one of ${Object.keys(CADENCES).join(', ')}.`);
+  }
   const since = opts.since || sinceFromDays(CADENCES[cadence], now);
   const slug = repoSlug(cwd);
 

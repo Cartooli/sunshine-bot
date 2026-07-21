@@ -2,7 +2,7 @@
 
 ![Sunshine Bot](assets/og-image.png)
 
-![license](https://img.shields.io/badge/license-MIT-blue) ![node](https://img.shields.io/badge/node-%E2%89%A518-brightgreen) ![tests](https://img.shields.io/badge/tests-19%20passing-success) ![deps](https://img.shields.io/badge/runtime%20deps-0-blueviolet)
+![license](https://img.shields.io/badge/license-MIT-blue) ![node](https://img.shields.io/badge/node-%E2%89%A518-brightgreen) ![tests](https://img.shields.io/badge/tests-46%20passing-success) ![deps](https://img.shields.io/badge/runtime%20deps-0-blueviolet)
 
 **A configurable positivity engine that reads your own git history and shares specific, earned praise to keep the team motivated.**
 
