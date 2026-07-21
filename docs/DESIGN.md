@@ -43,7 +43,8 @@ collect signal  ->  classify into categories  ->  select exemplars  ->  generate
 1. **Collect.** Read commits in a time window derived from the cadence
    (daily = 1 day, weekly = 7, monthly = 30) or an explicit `--since`. For each
    commit we capture: short hash, author, subject, body, changed files, and
-   insertion/deletion counts. Merge commits are parsed for PR numbers.
+   insertion/deletion counts. Merge commits are skipped; PR numbers are recovered
+   from squash-merge subjects ("(#NN)") or a bare "#NN" reference.
 2. **Classify.** Each commit is scored against every enabled praise category. A
    category's score combines keyword hits (in the message) with path/extension
    matches (in the changed files) and diff-shape signals (e.g. net code removal

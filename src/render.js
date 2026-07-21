@@ -19,15 +19,26 @@ function prUrl(slug, pr) {
   return slug ? `https://github.com/${slug}/pull/${pr}` : null;
 }
 
+function escapeRe(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Replace an artifact token (a commit hash or "#123" PR ref) with `replacement`,
+// but only at token boundaries so a "#12" ref never mangles an unrelated "#123"
+// and a short hash never rewrites a coincidental substring of the subject.
+function replaceToken(text, token, replacement) {
+  const re = new RegExp(`(^|[^\\w#])${escapeRe(token)}(?![\\w])`, 'g');
+  return text.replace(re, (_, pre) => `${pre}${replacement}`);
+}
+
 // Replace the bare {hash}/{ref} text in a compliment with markdown links.
 function linkifyMarkdown(c, slug) {
   let text = c.text;
   const hUrl = commitUrl(slug, c.hash);
-  if (hUrl) text = text.split(c.hash).join(`[\`${c.hash}\`](${hUrl})`);
-  else text = text.split(c.hash).join(`\`${c.hash}\``);
+  text = replaceToken(text, c.hash, hUrl ? `[\`${c.hash}\`](${hUrl})` : `\`${c.hash}\``);
   if (c.pr) {
     const pUrl = prUrl(slug, c.pr);
-    if (pUrl) text = text.split(`#${c.pr}`).join(`[#${c.pr}](${pUrl})`);
+    if (pUrl) text = replaceToken(text, `#${c.pr}`, `[#${c.pr}](${pUrl})`);
   }
   return text;
 }
@@ -59,7 +70,7 @@ export function renderTerminal(digest, config, { now = new Date(), color = true 
   }
   for (const c of digest.compliments) {
     out.push(`  ${c.emoji}  ${paint.bold(c.categoryLabel)}`);
-    out.push(`     ${c.text.replace(c.hash, paint.green(c.hash))}`);
+    out.push(`     ${replaceToken(c.text, c.hash, paint.green(c.hash))}`);
     out.push('');
   }
   out.push(paint.dim(`  ${digest.compliments.length} moment(s) of sunshine. Keep going. 💛`));
@@ -82,10 +93,10 @@ export function renderSlackBlocks(digest, config, { now = new Date(), slug = nul
     // Slack mrkdwn uses <url|text> link syntax.
     let text = c.text;
     const hUrl = commitUrl(slug, c.hash);
-    if (hUrl) text = text.split(c.hash).join(`<${hUrl}|${c.hash}>`);
+    if (hUrl) text = replaceToken(text, c.hash, `<${hUrl}|${c.hash}>`);
     if (c.pr) {
       const pUrl = prUrl(slug, c.pr);
-      if (pUrl) text = text.split(`#${c.pr}`).join(`<${pUrl}|#${c.pr}>`);
+      if (pUrl) text = replaceToken(text, `#${c.pr}`, `<${pUrl}|#${c.pr}>`);
     }
     blocks.push({ type: 'section', text: { type: 'mrkdwn', text: `${c.emoji} ${text}` } });
   }

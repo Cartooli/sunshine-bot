@@ -40,7 +40,10 @@ export const DEFAULTS = {
     // Opt-in. Posts a PR comment using GITHUB_TOKEN in a GitHub Actions context.
     github: { enabled: false, tokenEnv: 'GITHUB_TOKEN' },
   },
-  // Minimum match score for a compliment to be emitted. Higher = pickier.
+  // Minimum *raw* evidence (keyword/path/shape hits, before category weighting) a
+  // commit must show for a compliment to be emitted. Weight then ranks what clears
+  // this bar; it never lowers it, so a heavily-weighted category can't manufacture
+  // praise from a weak match. Higher = pickier.
   minConfidence: 1,
   // Map git author names/emails to display handles, e.g. "@nina".
   team: {},

@@ -123,6 +123,8 @@ export function repoSlug(cwd = process.cwd()) {
   } catch {
     return null;
   }
-  const m = url.match(/github\.com[:/]+([^/]+\/[^/.]+)(?:\.git)?$/);
+  // Repo names can contain dots (e.g. "acme/foo.github.io"), so match lazily up to
+  // an optional trailing ".git" / slash rather than stopping at the first dot.
+  const m = url.match(/github\.com[:/]+([^/]+\/[^/]+?)(?:\.git)?\/?$/);
   return m ? m[1] : null;
 }
