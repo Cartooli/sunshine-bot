@@ -173,4 +173,4 @@ npm test    # node --test, zero dependencies
 
 ## License
 
-MIT © dwellchecker
+MIT © Cartooli
