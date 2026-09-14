@@ -66,6 +66,16 @@ test('markdown channel writes SUNSHINE.md and is idempotent on marker', async ()
   });
 });
 
+test('markdown HEADER links to Cartooli/sunshine-bot, not dwellchecker', async () => {
+  await makeRepo(async (dir) => {
+    commit(dir, 'a.js', 'x\n', 'simplify and delete dead code');
+    await run({ cwd: dir, only: ['markdown'], since: '2020-01-01', now });
+    const body = readFileSync(join(dir, 'SUNSHINE.md'), 'utf8');
+    assert.match(body, /https:\/\/github\.com\/Cartooli\/sunshine-bot/);
+    assert.doesNotMatch(body, /dwellchecker\/sunshine-bot/);
+  });
+});
+
 test('dry-run writes nothing', async () => {
   await makeRepo(async (dir) => {
     commit(dir, 'a.js', 'x\n', 'simplify and delete dead code');
