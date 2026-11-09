@@ -24,7 +24,7 @@
   "team": {
     "Nina Patel": "@nina",
     "nina@example.com": "@nina",
-    "Rob": "@rob"
+    "Sam Lee": "@sam"
   },
   "optOut": ["dependabot[bot]", "github-actions[bot]"],
   "intro": "Tough sprint, real progress. A few things worth pausing on:",
