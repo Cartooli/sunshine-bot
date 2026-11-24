@@ -3,3 +3,8 @@ node_modules/
 .DS_Store
 .sunshine-state.json
 .gitkeep_tmp
+
+# Secrets
+.env
+.env.*
+!.env.example
